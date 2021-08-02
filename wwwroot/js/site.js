@@ -99,7 +99,7 @@ hubConnection.on("ReceiveConnectedUser", () => {
 })
 
 hubConnection.on("ReceiveEventListeners", (url) => {
-    if (document.URL === url) {
+    if (urlIdsAreEqual(document.URL, url)) {
         setBoardHoverClass()
         cellElements.forEach(cell => {
             cell.addEventListener('click', handleClick)
@@ -108,7 +108,7 @@ hubConnection.on("ReceiveEventListeners", (url) => {
 })
 
 hubConnection.on("ReceiveMove", (currentClass, cellId, url) => {
-    if (document.URL === url) {
+    if (urlIdsAreEqual(document.URL, url)) {
         const cell = document.getElementById(cellId)
         swapTurns()
         setBoardHoverClass()
@@ -120,7 +120,7 @@ hubConnection.on("ReceiveMove", (currentClass, cellId, url) => {
 })
 
 hubConnection.on("ReceiveGameResult", (draw, url) => {
-    if (document.URL === url) {
+    if (urlIdsAreEqual(document.URL, url)) {
         if (draw) {
             winningMessageTextElement.innerText = 'Draw!'
         } else {
@@ -129,6 +129,12 @@ hubConnection.on("ReceiveGameResult", (draw, url) => {
         winningMessageElement.classList.add('show')
     }
 })
+
+function urlIdsAreEqual(url1, url2) {
+    url1 = url1.split('/')
+    url2 = url2.split('/')
+    return url1[5][0] === url2[5][0]
+} 
 
 hubConnection.start()
 
