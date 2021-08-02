@@ -24,13 +24,12 @@ namespace TicTacToeOnlineGame.Controllers
             return View(_db.Rooms.Where(r => r.Status == "Open").ToList());
         }
 
-        public async Task<IActionResult> Room(int? id)
+        public async Task<IActionResult> Room(int? id, bool closeRoom = false)
         {
             var room = _db.Rooms.FirstOrDefault(r => r.Id == id);
             if (room == null) return NotFound();
 
-            room.PlayersCount++;
-            if (room.PlayersCount >= 2)
+            if (closeRoom)
             {
                 room.Status = "Closed";
             }

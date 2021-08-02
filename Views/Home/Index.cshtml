@@ -31,11 +31,11 @@
         var counter = 0;
         for (var i = 0; i < Model.Count; i += 2)
         {
-            <div class="row mt-2">
+            <div class="row">
                 @if (i + 1 >= Model.Count)
                 {
-                    <div class="col-sm-8">
-                        <a asp-action="Room" asp-controller="Home" asp-route-id="@Model[i].Id" class="tile @colors[colorIndex]">
+                    <div class="col-sm-8 mt-2">
+                        <a asp-action="Room" asp-controller="Home" asp-route-id="@Model[i].Id" class="tile @colors[colorIndex]" asp-route-closeRoom="true">
                             <h3 class="title">@Model[i].Name</h3>
                             <p class="mt-2">Tags: @Model[i].Tags</p>
                         </a>
@@ -43,8 +43,8 @@
                 }
                 else
                 {
-                    <div class="col-sm-4">
-                        <a asp-action="Room" asp-controller="Home" asp-route-id="@Model[i].Id" class="tile @colors[colorIndex]">
+                    <div class="col-sm-4 mt-2">
+                        <a asp-action="Room" asp-controller="Home" asp-route-id="@Model[i].Id" class="tile @colors[colorIndex]" asp-route-closeRoom="true">
                             <h3 class="title">@Model[i].Name</h3>
                             <p class="mt-2">Tags: @Model[i].Tags</p>
                         </a>
@@ -52,8 +52,8 @@
 
                     colorIndex = colorIndex < 2 ? ++colorIndex : 0;
 
-                    <div class="col-sm-4">
-                        <a asp-action="Room" asp-controller="Home" asp-route-id="@Model[i + 1].Id" class="tile @colors[colorIndex]">
+                    <div class="col-sm-4 mt-2">
+                        <a asp-action="Room" asp-controller="Home" asp-route-id="@Model[i + 1].Id" class="tile @colors[colorIndex]" asp-route-closeRoom="true">
                             <h3 class="title">@Model[i + 1].Name</h3>
                             <p class="mt-2">Tags: @Model[i + 1].Tags</p>
                         </a>
