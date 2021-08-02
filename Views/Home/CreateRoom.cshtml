@@ -1,0 +1,96 @@
+@model CreateRoomModel
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<form asp-action="CreateRoom" asp-controller="Home">
+    <div class="validation" asp-validation-summary="ModelOnly"></div>
+    <div class="container">
+        <div class="form-group">
+            <label asp-for="Name" class="control-label">Name of the game</label>
+            <input type="text" asp-for="Name" class="form-control" id="gameName" required>
+        </div>
+        <div class="form-group">
+            <label asp-for="Tags" class="control-label">Tags</label>
+            <input type="text" asp-for="Tags" class="form-control" id="tags" required>
+        </div>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" disabled id="firstMoveBtn">
+            Make first move
+        </button>
+        <input type="hidden" asp-for="FirstMoveCellId" id="firstMove" required>
+    </div>
+    <input type="submit" id="submit" style="display: none">
+</form>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="board" id="board">
+        <div class="cell" id="0" data-cell></div>
+        <div class="cell" id="1" data-cell></div>
+        <div class="cell" id="2" data-cell></div>
+        <div class="cell" id="3" data-cell></div>
+        <div class="cell" id="4" data-cell></div>
+        <div class="cell" id="5" data-cell></div>
+        <div class="cell" id="6" data-cell></div>
+        <div class="cell" id="7" data-cell></div>
+        <div class="cell" id="8" data-cell></div>
+    </div>
+    <div class="winning-message" id="winningMessage">
+        <div data-winning-message-text></div>
+        <button id="restartButton">Restart</button>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    
+    <script>
+        $(document).ready(function() {
+           $('#tags').autocomplete({
+                source: '/api/tagapi/search'
+           }); 
+        });
+    </script>
+    
+    <script>
+    let gameNameIsFilled = false
+    let tagsIsFilled = false
+    
+    document.getElementById("gameName").addEventListener("change", (e) => {
+        if (e.target.value) {
+            gameNameIsFilled = true
+            if (tagsIsFilled) {
+                document.getElementById("firstMoveBtn").disabled = false
+            }
+        } 
+        else {
+            gameNameIsFilled = false
+            document.getElementById("firstMoveBtn").disabled = true
+        }
+    })
+    
+    document.getElementById("tags").addEventListener("change", (e) => {
+        if (e.target.value) {
+            tagsIsFilled = true
+            if (gameNameIsFilled) {
+                document.getElementById("firstMoveBtn").disabled = false
+            }
+        }
+        else {
+            tagsIsFilled = false
+            document.getElementById("firstMoveBtn").disabled = true
+        }
+    })
+    
+    const cells = document.querySelectorAll('[data-cell]')
+    cells.forEach(cell => {
+        cell.addEventListener("click", (e) => {
+            const cellElement = e.target;
+            document.getElementById("firstMove").value = cellElement.getAttribute("id")
+            document.getElementById("submit").click()
+        })
+    })
+    </script>
+}

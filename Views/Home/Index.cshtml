@@ -1,0 +1,66 @@
+﻿@model List<Room>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <a asp-area="" asp-controller="Home" asp-action="CreateRoom">Create New Room</a>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>
+                <strong>Rooms: @Model.Count</strong>
+            </h1>
+        </div>
+    </div>
+    <div class="row">
+        <form method="get" asp-action="Filter" asp-controller="Home">
+            <div class="form-inline form-group">
+                <label class="control-label m-1">Tag: </label>
+                <input name="tags" class="form-control m-1">
+                <input type="submit" value="Filter" class="btn btn-info m-1">
+            </div>
+        </form>
+    </div>
+    @{
+        var colors = new List<string> {"purple", "green", "red", "blue"};
+        var colorIndex = 0;
+        var counter = 0;
+        for (var i = 0; i < Model.Count; i += 2)
+        {
+            <div class="row mt-2">
+                @if (i + 1 >= Model.Count)
+                {
+                    <div class="col-sm-8">
+                        <a asp-action="Room" asp-controller="Home" asp-route-id="@Model[i].Id" class="tile @colors[colorIndex]">
+                            <h3 class="title">@Model[i].Name</h3>
+                            <p class="mt-2">Tags: @Model[i].Tags</p>
+                        </a>
+                    </div>
+                }
+                else
+                {
+                    <div class="col-sm-4">
+                        <a asp-action="Room" asp-controller="Home" asp-route-id="@Model[i].Id" class="tile @colors[colorIndex]">
+                            <h3 class="title">@Model[i].Name</h3>
+                            <p class="mt-2">Tags: @Model[i].Tags</p>
+                        </a>
+                    </div>
+
+                    colorIndex = colorIndex < 2 ? ++colorIndex : 0;
+
+                    <div class="col-sm-4">
+                        <a asp-action="Room" asp-controller="Home" asp-route-id="@Model[i + 1].Id" class="tile @colors[colorIndex]">
+                            <h3 class="title">@Model[i + 1].Name</h3>
+                            <p class="mt-2">Tags: @Model[i + 1].Tags</p>
+                        </a>
+                    </div>
+                }
+            </div>
+            colorIndex = colorIndex < 3 ? ++colorIndex : 0;
+        }
+    }
+</div>

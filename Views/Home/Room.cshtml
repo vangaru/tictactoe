@@ -1,0 +1,29 @@
+@model TicTacToeOnlineGame.Models.Room
+
+@{
+    ViewBag.Title = "Room";
+}
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center parent">
+    <div class="board @Model.FirstMoveCellId" id="board">
+        <div class="cell" id="0" data-cell></div>
+        <div class="cell" id="1" data-cell></div>
+        <div class="cell" id="2" data-cell></div>
+        <div class="cell" id="3" data-cell></div>
+        <div class="cell" id="4" data-cell></div>
+        <div class="cell" id="5" data-cell></div>
+        <div class="cell" id="6" data-cell></div>
+        <div class="cell" id="7" data-cell></div>
+        <div class="cell" id="8" data-cell></div>
+    </div>
+</div>
+<div class="winning-message" id="winningMessage">
+    <div data-winning-message-text></div>
+    <form asp-action="DeleteRoom" asp-controller="Home" asp-route-id="@Model.Id">
+        <button type="submit" id="restartButton">Exit</button>
+    </form>
+</div>
